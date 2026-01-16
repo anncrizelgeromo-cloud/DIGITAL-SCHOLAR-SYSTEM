@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>DigScholar</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin:0;
+    padding:0;
+    height:100vh;
+    background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding-top:50px;
+}
+
+.container {
+    background: rgba(255,255,255,0.9);
+    padding: 25px 30px;
+    border-radius:15px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.2);
+    width:400px;
+}
+
+h2 { text-align:center; color:#2c3e50; margin-bottom:15px; }
+button { width:100%; padding:12px; margin-top:15px; border:none; border-radius:5px; cursor:pointer; background:#3498db; color:white; font-weight:bold; font-size:16px; transition:0.3s;}
+button:hover { background:#2980b9; }
+.page { text-align:center; font-size:14px; color:gray; margin-bottom:20px;}
+</style>
+</head>
+<body>
+
+<div class="container">
+<div class="page">DigScholar</div>
+<h2>Your application has been submitted</h2>
+
+<button id="reviewBtn">Review Your Application</button>
+</div>
+
+<script>
+document.getElementById("reviewBtn").onclick = function(){
+    let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    let apps = JSON.parse(localStorage.getItem("applications"));
+    let myApps = apps.filter(a => a.name === currentUser.name);
+    if(myApps.length>0){
+        localStorage.setItem("editApp", JSON.stringify(myApps[myApps.length-1]));
+    }
+    location.href="page2-apply.html";
+};
+</script>
+
+</body>
+</html>

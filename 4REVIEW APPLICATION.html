@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page 4 - Admin Review</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin:0;
+    padding:0;
+    height:100vh;
+    background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding-top:20px;
+}
+
+.container {
+    background: rgba(255,255,255,0.95);
+    padding:25px 30px;
+    border-radius:15px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.2);
+    width:550px;
+}
+
+h2 { text-align:center; color:#2c3e50; margin-bottom:15px; }
+button { padding:8px 12px; margin:4px 2px; border:none; border-radius:5px; cursor:pointer; background:#3498db; color:white; font-weight:bold; transition:0.3s;}
+button:hover { background:#2980b9; }
+button.clear { background:#e74c3c; }
+button.clear:hover { background:#c0392b; }
+.card { background:#ecf0f1; padding:10px; margin:10px 0; border-radius:6px; }
+.status { font-weight:bold; }
+.page { text-align:center; font-size:14px; color:gray; margin-bottom:10px;}
+</style>
+</head>
+<body>
+
+<div class="container">
+<div class="page">REVIEW APPLICATIONS</div>
+<h2>All Applications</h2>
+<div id="appContainer"></div>
+<button class="clear" onclick="clearAll()">Clear All Applications</button>
+</div>
+
+<script>
+// Load all applications
+let apps = JSON.parse(localStorage.getItem("applications")) || [];
+
+function render(){
+    let container = document.getElementById("appContainer");
+    container.innerHTML = "";
+    if(apps.length === 0){
+        container.innerHTML = "<p>No applications submitted yet.</p>";
+        return;
+    }
+
+    apps.forEach((a,i)=>{
+        container.innerHTML += `<div class="card">
+            <b>Full Name:</b> ${a.name}<br>
+            <b>Email:</b> ${a.email}<br>
+            <b>Contact:</b> ${a.contact}<br>
+            <b>Date of Birth:</b> ${a.dob}<br>
+            <b>Address:</b> ${a.address}<br>
+            <b>Course:</b> ${a.course}<br>
+            <b>Year Level:</b> ${a.year}<br>
+            <b>GPA:</b> ${a.gpa}<br>
+            <b>Document:</b> ${a.document}<br>
+            <b>Remarks:</b> ${a.remarks}<br>
+            <b>Status:</b> <span class="status" style="color:${a.status==='Approved'?'green':a.status==='Rejected'?'red':'orange'}">${a.status}</span><br>
+            <button onclick="update(${i},'Approved')">Approve</button>
+            <button onclick="update(${i},'Rejected')">Reject</button>
+        </div>`;
+    });
+}
+
+// Update application status
+function update(i,status){
+    apps[i].status = status;
+    localStorage.setItem("applications", JSON.stringify(apps));
+    render();
+}
+
+// Clear all applications
+function clearAll(){
+    if(confirm("Are you sure you want to clear all applications?")){
+        apps = [];
+        localStorage.setItem("applications", JSON.stringify(apps));
+        render();
+    }
+}
+
+// Initial render
+render();
+</script>
+
+</body>
+</html>
